@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"Training/Auth/src"
+	"github.com/bilalmakayasa/efishery-test/Auth/src"
 )
 
 func main() {
