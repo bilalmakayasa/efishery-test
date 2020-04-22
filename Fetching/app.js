@@ -11,7 +11,7 @@ app.set('port', 8082);
 app.get('/', function(req, res){
   res.send('Hello World');
 });
-app.get(`/testing`, auth.jwtVerify, Fetching.index);
+app.get(`/fetching`, auth.jwtVerify, Fetching.index);
 app.get(`/aggregate`, auth.jwtVerify, Fetching.aggregate);
 app.get(`/retrieve`, auth.jwtVerify, Fetching.retrieve);
 
