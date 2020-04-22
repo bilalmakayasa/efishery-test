@@ -9,7 +9,7 @@ import (
 
 func main() {
 	port := ":8081"
-	http.HandleFunc("/", src.Login)
+	http.HandleFunc("/login", src.Login)
 	http.HandleFunc("/register", src.Register)
 	http.HandleFunc("/welcome", src.Credential)
 	fmt.Printf("Authentication services listening on port:%v", port)

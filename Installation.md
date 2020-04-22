@@ -61,3 +61,5 @@ There are 2 apps that you should run, so you will need 2 terminal windows / tab 
 
    The Fetching apps will be running on localhost:8082
 
+   Note: For more convinience usage of OpenAPI md file on each apps, I suggest you to copy the contents of API.md and implement it on SwaggerHUB
+
