@@ -177,17 +177,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 				json.NewEncoder(w).Encode(result)
 				return
 			}
+
+			fmt.Println(time.Now().Add(8 * time.Hour).Unix())
 			claims := &Claims{
 				Name:  dataUser.Name,
 				Phone: dataUser.Phone,
 				Role:  dataUser.Role,
 				StandardClaims: jwt.StandardClaims{
-					ExpiresAt: time.Now().Add(20 * time.Minute).Unix(),
+					ExpiresAt: time.Now().Add(20 * time.Hour).Unix(),
 				},
 			}
 
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-			rsa := []byte(data.SecretKey)
+
+			rsa := []byte("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQClSEK7AtfQnRmDFCFvdbM6D6F+tP8eKOWqnvs0jnInOvrZ4c0Nzu/9ilzEhYjYMh+P79hEy0jw1+09/u6lrYo6/BAjxIpSOZDiOZlFKylUnK60fxc6auJv4NjyOBKoVXKqQUuCju6QjdYRTl+6XrSms1/fpEXFMRJP4IMthjO2DT3d6oNuzQhScAleDl9lsOYvcitn3+uZttHdVXjYsU/luw1/OPjMqf2gh7cR+GX7lX1nCa9RYAYijpYNT6LAA/XQUSYGl9qVfFR8ZaWYyTQgITUKQQHac3GpOhBBFyrkJYdNG+L34072f/Jj3qe7eKDD1SR5szyU+/S3aFd4YB+/Z2YAD+0YLud09NoIlHbisrgoYsPlyz2r+Hri0tW7IyDKhjyymbGVEBC3WKHTCW1LpOR5B/+u9nNm5AVqZ76GMOjbXyWDaKz40FnwToIpDe5oxhq/fMINbXrPViivtjfGT3ifFrzl+9j4U0qSSUAxmUE88yRubzekmEbqX++3KUJtlfclpiPAP4HB2ayVBDSUGMhSrqmmrLxggB8nTnX61jFxkBOCiN+LyOeRbwf+3RkTQ5yhu+/OBP2L6msWqTyhO77FlZGzktHqfexqspbLTjWcmMJFvt6tJgFdk3IIXAnLeCEbuoDcl2C60Y/jrrsDFeCbtvzuA4GSMtNjUs76rQ== bilal.makayasa@gmail.com")
+			fmt.Println(rsa)
 			tokenString, err := token.SignedString(rsa)
 			if err != nil {
 				panic(err)
