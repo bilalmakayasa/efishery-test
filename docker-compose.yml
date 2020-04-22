@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+    fetching: 
+        build:  
+            context: Fetching
+            dockerfile: Dockerfile
+        volumes: 
+            - Fetching/app
+        ports: 
+            - 8082:8082
+    
+    auth:
+        build: 
+            context: Auth
+            dockerfile: Dockerfile
+        volumes: 
+            - Auth/src
+        ports:
+            - 8081:8081

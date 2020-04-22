@@ -2,27 +2,31 @@
 
 const axios = require(`axios`);
 const fs = require('fs');
-const filePath = `../data.json`
+const conversionRate = {
+    "IdrToUsd": 0.000065041767,
+    "apiKey": "6b2df0571955f97c3e28",
+    "apiUrl": "https://free.currconv.com/api/v7/convert",
+    "updatedAt": 1587335161991
+    }
 
 async function conversion(file) {
-    const timeGap = (new Date().getTime() / 1000) - file.conversionRate.updatedAt;
-    if (timeGap < 3600 * 6) return file.conversionRate.IdrToUsd;
+    const timeGap = (new Date().getTime() / 1000) - conversionRate.updatedAt;
+    if (timeGap < 3600 * 6) return conversionRate.IdrToUsd;
 
     const rate = await axios({
         method: `GET`,
-        url: `${file.conversionRate.apiUrl}`,
+        url: `${conversionRate.apiUrl}`,
         params:{
             q: `IDR_USD`,
             compact: `ultra`,
-            apiKey: file.conversionRate.apiKey
+            apiKey: conversionRate.apiKey
         }
     }).catch(function(error) {
         console.log(error);
         throw(error);
     });
-    file.conversionRate.IdrToUsd = rate.data.IDR_USD;
-    file.conversionRate.updatedAt = new Date().getTime() / 1000;
-    fs.writeFileSync(filePath, JSON.stringify(file));
+    conversionRate.IdrToUsd = rate.data.IDR_USD;
+    conversionRate.updatedAt = new Date().getTime() / 1000;
 
     return rate.data.IDR_USD;
 }
@@ -75,8 +79,7 @@ function time(a) {
 
 module.exports = {
     index: async(req, res) => {
-        const file = JSON.parse(fs.readFileSync(filePath,`utf8`))
-        const convRate = await conversion(file);
+        const convRate = await conversion(conversionRate);
 
         const fetchData = await axios({
             method: `GET`,
@@ -97,7 +100,7 @@ module.exports = {
 
     aggregate: async(req, res) => {
         try {
-            // if (req.user.role != `admin`) return res.status(401).json({error: `admin access only`});
+            if (req.user.role !== `admin`) return res.status(401).json({error: `admin access only`});
             const fetchData = await axios({
                 method: `GET`,
                 url: `https://stein.efishery.com/v1/storages/5e1edf521073e315924ceab4/list`

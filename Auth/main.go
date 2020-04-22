@@ -1,14 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/bilalmakayasa/efishery-test/Auth/src"
 )
 
 func main() {
+	port := ":8081"
 	http.HandleFunc("/", src.Login)
 	http.HandleFunc("/register", src.Register)
 	http.HandleFunc("/welcome", src.Credential)
-	http.ListenAndServe(":8081", nil)
+	fmt.Printf("Authentication services listening on port:%v", port)
+	http.ListenAndServe(port, nil)
 }

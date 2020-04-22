@@ -12,9 +12,9 @@ app.get('/', function(req, res){
   res.send('Hello World');
 });
 app.get(`/testing`, auth.jwtVerify, Fetching.index);
-app.get(`/aggregate`, Fetching.aggregate);
+app.get(`/aggregate`, auth.jwtVerify, Fetching.aggregate);
 app.get(`/retrieve`, auth.jwtVerify, Fetching.retrieve);
 
 http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
+    console.log("Fetching services listening on port " + app.get('port'));
   });
